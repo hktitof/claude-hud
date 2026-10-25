@@ -51,7 +51,7 @@ function parseScopedWindows(value: unknown): ScopedUsageWindow[] {
   for (const entry of value) {
     if (windows.length >= SCOPED_WINDOWS_MAX) break;
     const label = typeof entry?.display_name === 'string'
-      ? sanitizeDisplayText(entry.display_name).trim().slice(0, SCOPED_LABEL_MAX_LENGTH)
+      ? truncateString(sanitizeDisplayText(entry.display_name).trim(), SCOPED_LABEL_MAX_LENGTH, '')
       : '';
     const percent = entry?.utilization === null ? null : parseUsagePercent(entry?.utilization);
     if (!label || (entry?.utilization !== null && percent === null)) continue;

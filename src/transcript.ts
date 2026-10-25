@@ -212,7 +212,7 @@ class Parser {
   private assistant(entry: Entry, at: Date | null): void {
     if (at) this.data.lastAssistantResponseAt = at;
     if (typeof entry.advisorModel === 'string' && entry.advisorModel) {
-      this.data.advisorModel = entry.advisorModel.slice(0, ADVISOR_MODEL_MAX_LEN);
+      this.data.advisorModel = truncateString(entry.advisorModel, ADVISOR_MODEL_MAX_LEN, '');
     }
     const model = sanitizeTranscriptModel(entry.message?.model);
     // Claude Code writes '<synthetic>' on assistant records it generates locally.

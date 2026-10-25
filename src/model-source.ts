@@ -1,4 +1,5 @@
 import { sanitizeDisplayText } from './utils/sanitize.js';
+import { truncateString } from './utils/truncate.js';
 
 export const TRANSCRIPT_MODEL_MAX_LEN = 80;
 
@@ -12,6 +13,6 @@ export function sanitizeTranscriptModel(value: unknown): string | undefined {
     return undefined;
   }
 
-  const sanitized = sanitizeDisplayText(value).trim().slice(0, TRANSCRIPT_MODEL_MAX_LEN);
+  const sanitized = truncateString(sanitizeDisplayText(value).trim(), TRANSCRIPT_MODEL_MAX_LEN, '');
   return sanitized || undefined;
 }

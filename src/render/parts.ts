@@ -120,7 +120,7 @@ function prettifyAdvisorId(rawId: string): string {
 export function advisorPart(f: Frame): string | null {
   const display = f.config?.display;
   if (display?.showAdvisor !== true) return null;
-  const clean = (value: unknown): string => (typeof value === 'string' ? sanitizeDisplayText(value.trim()).slice(0, ADVISOR_MAX_LENGTH) : '');
+  const clean = (value: unknown): string => (typeof value === 'string' ? truncateString(sanitizeDisplayText(value.trim()), ADVISOR_MAX_LENGTH, '') : '');
   const override = clean(display.advisorOverride);
   const name = override || clean(prettifyAdvisorId(clean(f.transcript?.advisorModel)));
   return name ? `${label(`${t('label.advisor')}:`, f.config?.colors)} ${name}` : null;

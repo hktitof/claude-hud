@@ -135,7 +135,7 @@ test('stdinText cuts free text on a grapheme boundary', () => {
   assert.equal(stdinText('A'.repeat(78) + emoji, 80), 'A'.repeat(78) + emoji);
   // A flag is two regional indicators, so it must not be cut either.
   assert.equal(stdinText('A'.repeat(78) + '🇬🇧', 80), 'A'.repeat(78));
-  assert.doesNotMatch(stdinText('A'.repeat(79) + emoji, 80), /[\uD800-\uDBFF](?![\uDC00-\uDFFF])/);
+  assert.equal(stdinText('A'.repeat(79) + emoji, 80), 'A'.repeat(79));
 });
 
 test('getNativeCostUsd hides routed providers unless opted in', () => {

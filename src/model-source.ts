@@ -1,5 +1,4 @@
-import { sanitizeDisplayText } from './utils/sanitize.js';
-import { truncateString } from './utils/truncate.js';
+import { displayLabel } from './utils/sanitize.js';
 
 export const TRANSCRIPT_MODEL_MAX_LEN = 80;
 
@@ -9,10 +8,5 @@ export const TRANSCRIPT_MODEL_MAX_LEN = 80;
  * OSC, control, and bidi sequences and keep the retained value bounded.
  */
 export function sanitizeTranscriptModel(value: unknown): string | undefined {
-  if (typeof value !== 'string') {
-    return undefined;
-  }
-
-  const sanitized = truncateString(sanitizeDisplayText(value).trim(), TRANSCRIPT_MODEL_MAX_LEN, '');
-  return sanitized || undefined;
+  return displayLabel(value, TRANSCRIPT_MODEL_MAX_LEN) || undefined;
 }

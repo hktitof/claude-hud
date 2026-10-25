@@ -1,8 +1,7 @@
 import type { StdinData, UsageData, TranscriptData } from './types.js';
 import type { ModelFormatMode } from './config.js';
 import { sanitizeTranscriptModel } from './model-source.js';
-import { sanitizeDisplayText } from './utils/sanitize.js';
-import { truncateString } from './utils/truncate.js';
+import { displayLabel } from './utils/sanitize.js';
 
 const NO_DATA_TIMEOUT_MS = 250;
 const IDLE_TIMEOUT_MS = 250;
@@ -191,14 +190,9 @@ export function getUsageFromStdin(stdin: StdinData): UsageData | null {
   };
 }
 
-// Free text from stdin (session names, output styles, versions) is shown in the terminal,
-// so it is cut on a grapheme boundary like every other label: an emoji or a combining
-// sequence must not be split in half.
+// Free text from stdin (session names, output styles, versions) is shown in the terminal.
 export function stdinText(value: unknown, maxLength = 80): string | undefined {
-  if (typeof value !== 'string') {
-    return undefined;
-  }
-  return truncateString(sanitizeDisplayText(value).trim(), maxLength, '') || undefined;
+  return displayLabel(value, maxLength) || undefined;
 }
 
 // Drops the "(1M context)" style suffix; the context bar already shows the window.

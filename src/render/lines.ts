@@ -1,7 +1,6 @@
 import { formatBytes } from '../memory.js';
 import { t } from '../i18n/index.js';
-import { sanitizeDisplayText } from '../utils/sanitize.js';
-import { truncateString } from '../utils/truncate.js';
+import { displayLabel } from '../utils/sanitize.js';
 import type { Frame } from './frame.js';
 import { critical, dim, getContextColor, getQuotaColor, label, quotaBar, RESET, warning } from './colors.js';
 import { outputStyle } from './derive.js';
@@ -14,7 +13,7 @@ const MCP_NAME_MAX = 64;
 
 /** `⚠ github, tenable +2`. */
 function mcpErrors(f: Frame, names: string[]): string {
-  const safe = names.map((name) => truncateString(sanitizeDisplayText(name).trim(), MCP_NAME_MAX, '')).filter(Boolean);
+  const safe = names.map((name) => displayLabel(name, MCP_NAME_MAX)).filter(Boolean);
   const overflow = safe.length > MAX_NAMED_MCP_ERRORS ? ` +${safe.length - MAX_NAMED_MCP_ERRORS}` : '';
   return critical(`⚠ ${safe.slice(0, MAX_NAMED_MCP_ERRORS).join(', ')}${overflow}`, f.config?.colors);
 }
